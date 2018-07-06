@@ -50,6 +50,12 @@ class AddCoupon extends Component {
     this.setActiveStep = this.setActiveStep.bind(this);
     this.checkBoxIsChecked = this.checkBoxIsChecked.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.selectedItem = this.selectedItem.bind(this);
+    this.includeOrExclude = this.includeOrExclude.bind(this);
+    this.removeFromList = this.removeFromList.bind(this);
+    this.getCategoryFromDropdown = this.getCategoryFromDropdown.bind(this);
+    this.getClassFromDropdown = this.getClassFromDropdown.bind(this);
+    this.clearList = this.clearList.bind(this);
     const types = ['Percent', 'Fixed', 'Other'];
     this.state = {
       activeStep: 1,
@@ -71,7 +77,15 @@ class AddCoupon extends Component {
       firstTime: false,
       rxOnly: false,
       waiveFees: false,
-      endpointData: []
+      endpointData: [],
+      includedItems: [],
+      include: false,
+      excludedItems: [],
+      exclude: false,
+      includedCategories: [],
+      excludedCategories: [],
+      includedClasses: [],
+      excludedClasses: []
     };
   }
   
@@ -186,6 +200,12 @@ class AddCoupon extends Component {
     });
   }
 
+  /*
+   * Function: handleKeyPress
+   * Parameters: event (EVENT)
+   * Description: Function that handles keypress events. As of now, the ENTER key is defined to perform the moveForward function for the form. 
+   */
+
   handleKeyPress(event) {
     switch(event.keyCode) {
       default:
@@ -194,6 +214,216 @@ class AddCoupon extends Component {
         this.moveForward(); 
         break;
     }
+  }
+
+  selectedItem(e) {
+    let selected = e.currentTarget.name;
+    if(this.state.include) {
+      if(this.state.includedItems.includes(selected) === false) {
+        if(this.state.excludedItems.includes(selected)) {
+          let excludedItems = this.state.excludedItems;
+          excludedItems = excludedItems.filter((item) => {
+            if(item === selected) {
+              return false;
+            }
+            return item
+          });
+          this.setState({
+            excludedItems: excludedItems
+          });
+        }
+        this.setState({
+          includedItems: [...this.state.includedItems, selected]
+        });
+      }
+    }else if(this.state.exclude) {
+      if(this.state.excludedItems.includes(selected) === false) {
+        if(this.state.includedItems.includes(selected)) {
+          let includedItems = this.state.includedItems;
+          includedItems = includedItems.filter((item) => {
+            if(item === selected) {
+              return false;
+            }
+            return item
+          });
+          this.setState({
+            includedItems: includedItems
+          });
+        }
+        this.setState({
+          excludedItems: [...this.state.excludedItems, selected]
+        });
+      }
+    }
+  }
+
+  includeOrExclude(e) {
+    let radioValue = e.currentTarget.value;
+    switch(radioValue) {
+      default: break;
+      case 'Include':
+        if(this.state.exclude === true) {
+          this.setState({
+            exclude: false
+          });
+        }
+        this.setState({
+          include: true
+        });
+        break;
+      case 'Exclude':
+        if(this.state.include === true) {
+          this.setState({
+            include: false
+          });
+        }
+        this.setState({
+          exclude: true
+        });
+        break;
+    }
+  }
+
+  removeFromList(e) {
+    let toRemove = e.target.name;
+    if(this.state.includedItems.includes(toRemove)) {
+      let includedItems = this.state.includedItems;
+      includedItems = includedItems.filter((item) => {
+        if(item === toRemove) {
+          return false;
+        }
+        return true;
+      });
+      this.setState({
+        includedItems: includedItems
+      });
+    }else if(this.state.excludedItems.includes(toRemove)) {
+      let excludedItems = this.state.excludedItems;
+      excludedItems = excludedItems.filter((item) => {
+        if(item === toRemove) {
+          return false;
+        }
+        return true;
+      });
+      this.setState({
+        excludedItems: excludedItems
+      });
+    }else if(this.state.includedCategories.includes(toRemove)) {
+      let includedCategories = this.state.includedCategories;
+      includedCategories = includedCategories.filter((item) => {
+        if(item === toRemove) {
+          return false;
+        }
+        return item;
+      });
+      this.setState({
+        includedCategories: includedCategories
+      });
+    }else if(this.state.excludedCategories.includes(toRemove)) {
+      let excludedCategories = this.state.excludedCategories;
+      excludedCategories = excludedCategories.filter((item) => {
+        if(item === toRemove) {
+          return false;
+        }
+        return item;
+      });
+      this.setState({
+        excludedCategories: excludedCategories
+      });
+    }
+  }
+  
+  getCategoryFromDropdown(e) {
+    let selected = e.currentTarget.value;
+    if(this.state.include) {
+      if(this.state.includedCategories.includes(selected) === false) {
+        if(this.state.excludedCategories.includes(selected)) {
+          let excludedCategories = this.state.excludedCategories;
+          excludedCategories = excludedCategories.filter((item) => {
+            if(item === selected) {
+              return false;
+            }
+            return item;
+          });
+          this.setState({
+            excludedCategories: excludedCategories
+          });
+        }
+        this.setState({
+          includedCategories: [...this.state.includedCategories, selected]
+        });
+      }
+    }else if(this.state.exclude) {
+      if(this.state.excludedCategories.includes(selected) === false) {
+        if(this.state.includedCategories.includes(selected)) {
+          let includedCategories = this.state.includedCategories;
+          includedCategories = includedCategories.filter((item) => {
+            if(item === selected) {
+              return false;
+            }
+            return item
+          });
+          this.setState({
+            includedCategories: includedCategories
+          });
+        }
+        this.setState({
+          excludedCategories: [...this.state.excludedCategories, selected]
+        });
+      }
+    }
+  }
+
+  getClassFromDropdown(e) {
+    let selected = e.currentTarget.value;
+    if(this.state.include) {
+      if(this.state.includedClasses.includes(selected) === false) {
+        if(this.state.excludedClasses.includes(selected)) {
+          let excludedClasses = this.state.excludedClasses;
+          excludedClasses = excludedClasses.filter((item) => {
+            if(item === selected) {
+              return false;
+            }
+            return item;
+          });
+          this.setState({
+            excludedClasses: excludedClasses
+          });
+        }
+        this.setState({
+          includedClasses: [...this.state.includedClasses, selected]
+        });
+      }
+    }else if(this.state.exclude) {
+      if(this.state.excludedClasses.includes(selected) === false) {
+        if(this.state.includedClasses.includes(selected)) {
+          let includedClasses = this.state.includedClasses;
+          includedClasses = includedClasses.filter((item) => {
+            if(item === selected) {
+              return false;
+            }
+            return item
+          });
+          this.setState({
+            includedClasses: includedClasses
+          });
+        }
+        this.setState({
+          excludedClasses: [...this.state.excludedClasses, selected]
+        });
+      }
+    }
+  }
+
+  clearList() {
+    this.setState({
+      includedCategories: [],
+      includedClasses: [],
+      includedItems: [],
+      excludedCategories: [],
+      excludedClasses: [],
+      excludedItems: []
+    });
   }
 
   componentDidMount() {
@@ -227,7 +457,7 @@ class AddCoupon extends Component {
             <UserRestrictionsForm getData={this.getData} checkBoxIsChecked={this.checkBoxIsChecked} />
           </div>
           <div className={this.state.activeStep === 3 ? 'form animated fadeIn' : 'form is-hidden'}>
-            <SKURestrictionsForm skuChoices={skuChoices} getData={this.getData} categories={categories} classes={classes} checkBoxIsChecked={this.checkBoxIsChecked} endpointData={this.state.endpointData} />
+            <SKURestrictionsForm skuChoices={skuChoices} getData={this.getData} categories={categories} classes={classes} checkBoxIsChecked={this.checkBoxIsChecked} selectedItem={this.selectedItem} includeOrExclude={this.includeOrExclude} removeFromList={this.removeFromList} includedItems={this.state.includedItems} excludedItems={this.state.excludedItems} includedCategories={this.state.includedCategories} excludedCategories={this.state.excludedCategories} getCategoryFromDropdown={this.getCategoryFromDropdown} includedClasses={this.state.includedClasses} excludedClasses={this.state.excludedClasses} getClassFromDropdown={this.getClassFromDropdown} clearList={this.clearList}/>
           </div>
           <div className={this.state.activeStep === 4 ? 'form animated fadeIn' : 'form is-hidden'}>
             <TransactionRestrictionsForm getTypeFromDropdown={this.getTypeFromDropdown} types={types} getData={this.getData} selectedType={this.state.selectedType} otherPromos={otherPromos} />

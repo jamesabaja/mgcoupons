@@ -16,7 +16,7 @@ import React from 'react';
 
 const Button = (props) => {
   return(
-    <button className="button is-primary" onClick={props.handleClick}>
+    <button className="button is-primary" onClick={props.handleClick} name={props.name}>
       {props.label}
     </button>
   );

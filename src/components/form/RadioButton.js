@@ -22,7 +22,7 @@ const RadioButton = (props) => {
         <div className="control">
           {props.choices.map((val, i) => 
             <label className="radio" key={i}>
-              <input type="radio" name={props.name} key={i}/>
+              <input type="radio" name={props.name} key={i} value={val} onChange={props.onChange}/>
               &nbsp;{val}
             </label>
           )}
