@@ -2,6 +2,7 @@
  * Code History
  * Programmer           Date     Description
  * James Abaja          7/5/18   Created the Review Data Form component.
+ * James Abaja          7/9/18   Removed passing of props because of AddCoupon Context.
  */
 
 /*
@@ -18,13 +19,13 @@ import UserRestrictionsTable from '../tables/UserRestrictionsTable';
 import SKURestrictionsTable from '../tables/SKURestrictionsTable';
 import TransactionRestrictionsTable from '../tables/TransactionRestrictionsTable';
 
-const ReviewDataForm = (props) => {
+const ReviewDataForm = () => {
   return(
     <div>
-      <BasicInfoTable code={props.state.code} description={props.state.description} activeDate={props.state.activeDate} expiryDate={props.state.expiryDate} waiveFees={props.state.waiveFees} totalUseLimit={props.state.totalUseLimit} dailyLimit={props.state.dailyLimit} />
-      <UserRestrictionsTable location={props.state.location} company={props.state.company} userUseLimit={props.state.userUseLimit} firstTime={props.state.firstTime} />
-      <SKURestrictionsTable item={props.state.item} rxOnly={props.state.rxOnly} />
-      <TransactionRestrictionsTable selectedType={props.state.selectedType} percentOff={props.state.percentOff} amount={props.state.amount} minPurchase={props.state.minPurchase} maxAmount={props.state.maxAmount} />
+      <BasicInfoTable />
+      <UserRestrictionsTable />
+      <TransactionRestrictionsTable />
+      <SKURestrictionsTable />
     </div>
   );
 }

@@ -19,7 +19,7 @@ const Input = (props) => {
     <div className="field is-horizontal">
       <label className="label field-label">{props.label}</label>
       <div className="field-body">
-        <input id={props.id} className="input" type="text" onChange={props.handleChange}/>
+        <input id={props.id} className="input" type={props.type} max={props.max} min={props.min} onChange={props.handleChange} maxLength={props.maxlength} disabled={props.disabled}/>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ import React, { Component } from 'react';
 import '../assets/App.css';
 import Navbar from '../components/navbar/Navbar';
 import { Route } from 'react-router-dom';
-import AddCoupon from '../components/pages/AddSingleCoupon/AddCoupon';
+import {AddCoupon} from '../components/pages/AddSingleCoupon/AddCoupon';
 import ViewActive from '../components/pages/ViewActiveCoupons/ViewActive';
 import ViewInactive from '../components/pages/ViewInactiveCoupons/ViewInactive';
 import LandingPage from '../components/pages/LandingPage/LandingPage';

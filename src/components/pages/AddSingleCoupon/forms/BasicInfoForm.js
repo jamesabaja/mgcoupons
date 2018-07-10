@@ -2,6 +2,7 @@
  * Code History
  * Programmer           Date     Description
  * James Abaja          7/5/18   Created the Basic Info Form component.
+ * James Abaja          7/9/18   Changed props to context references.
  */
 
 /*
@@ -17,19 +18,25 @@ import Input from '../../../form/Input';
 import DatePicker from '../../../form/DatePicker';
 import TextArea from '../../../form/TextArea';
 import CheckBox from '../../../form/CheckBox';
+import { Context } from '../AddCoupon';
 
-const BasicInfoForm = (props) => {
+const BasicInfoForm = () => {
   return(
-    <div>
-      <Input label='Coupon Code' id='code' handleChange={props.getData}/>
-      <TextArea label='Description' id='description' handleChange={props.getData}/>
-      <DatePicker label='Activation Date' id='activeDate' handleChange={props.getActivationDate}/>
-      <DatePicker label='Expiration Date' id='expiryDate' handleChange={props.getExpirationDate}/>
-      <CheckBox id='waiveFees' label='Waive Service and Delivery Fees' handleChange={props.checkBoxIsChecked}/>
-      <Input label='Total Use Limit' id='totalUseLimit' handleChange={props.getData}/>
-      <Input label='Uses per Day' id='dailyLimit' handleChange={props.getData}/>
-    </div>
+    <Context.Consumer>
+    {
+      context =>
+      <div>
+        <Input label='Coupon Code' id='code' type='text' handleChange={context.getData}/>
+        <TextArea label='Description' id='description' handleChange={context.getData}/>
+        <DatePicker label='Activation Date' id='activeDate' handleChange={context.getActivationDate}/>
+        <DatePicker label='Expiration Date' id='expiryDate' handleChange={context.getExpirationDate}/>
+        <CheckBox id='waiveFees' label='Waive Service and Delivery Fees' handleChange={context.checkBoxIsChecked}/>
+        <Input label='Total Use Limit' id='totalUseLimit' type='number' min='0' handleChange={context.getData}/>
+        <Input label='Uses per Day' id='dailyLimit' type='number' min='0' handleChange={context.getData}/>
+      </div>
+    }
+    </Context.Consumer>
   );
 }
 
-export default BasicInfoForm;
+export {BasicInfoForm};

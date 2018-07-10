@@ -3,6 +3,7 @@
  * Programmer           Date     Description
  * James Abaja          7/4/18   Created the User Restrictions Table component.
  * James Abaja          7/5/18   Renamed file name and exported component.
+ * James Abaja          7/9/18   Changed props to context references.
  */
 
 /*
@@ -14,35 +15,41 @@
  */
 
 import React from 'react';
+import { Context } from '../AddCoupon';
 
 const UserRestrictionsTable = (props) => {
   return(
-    <table className='table fixed is-striped is-hoverable is-fullwidth has-text-centered'>
-      <thead>
-        <tr>
-          <th>USER RESTRICTIONS</th>
-          <th>Details</th>
-        </tr>
-      </thead>
-      <tbody>
-        {props.location !== '' && <tr>
-          <th>Location/s</th>
-          <td>{props.location}</td>
-        </tr>}
-        {props.company !== '' && <tr>
-          <th>Company</th>
-          <td>{props.company}</td>
-        </tr>}
-        {props.userUseLimit !== '' && <tr>
-          <th>Uses per User</th>
-          <td>{props.userUseLimit}</td>
-        </tr>}
-        <tr>
-          <th>First-time users only?</th>
-          <td>{props.firstTime ? 'Yes' : 'No'}</td>
-        </tr>
-      </tbody>
-    </table>
+    <Context.Consumer>
+    {
+      context =>
+      <table className='table fixed is-striped is-hoverable is-fullwidth has-text-centered'>
+        <thead>
+          <tr>
+            <th>USER RESTRICTIONS</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {context.locations !== [] && <tr>
+            <th>Location/s</th>
+            <td>{context.locations.join(', ')}</td>
+          </tr>}
+          {context.company !== '' && <tr>
+            <th>Company</th>
+            <td>{context.company}</td>
+          </tr>}
+          {context.userUseLimit !== 0 && <tr>
+            <th>Uses per User</th>
+            <td>{context.userUseLimit}</td>
+          </tr>}
+          <tr>
+            <th>First-time users only?</th>
+            <td>{context.firstTime ? 'Yes' : 'No'}</td>
+          </tr>
+        </tbody>
+      </table>
+    }
+    </Context.Consumer>
   );
 }
 

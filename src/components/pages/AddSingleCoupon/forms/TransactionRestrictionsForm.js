@@ -2,6 +2,7 @@
  * Code History
  * Programmer           Date     Description
  * James Abaja          7/5/18   Created the Transaction Restrictions Form component.
+ * James Abaja          7/9/18   Changed props to context references.
  */
 
 /*
@@ -14,19 +15,25 @@
 
 import React from 'react';
 import Dropdown from '../../../form/Dropdown';
-import RadioButton from '../../../form/RadioButton';
+import CheckBox from '../../../form/CheckBox';
 import Input from '../../../form/Input';
+import { Context } from '../AddCoupon';
 
-const TransactionRestrictionsForm = (props) => {
+const TransactionRestrictionsForm = () => {
   return(
-    <div>
-      <Dropdown onClick={props.getTypeFromDropdown} label='Type' options={props.types}/>
-      <div className={props.selectedType === 'Percent' ? 'field':' field is-hidden'}><Input label='Percent Off' id='percentOff' handleChange={props.getData}/></div>
-      <div className={props.selectedType === 'Fixed' ? 'field':'field is-hidden'}><Input label='Amount' id='amount' handleChange={props.getData}/></div>
-      <div className='field'><Input label='Minimum Purchase' id='minPurchase' handleChange={props.getData}/></div>
-      <div className={props.selectedType === 'Percent' ? 'field':'field is-hidden'}><Input label='Maximum Discount' id='maxAmount' handleChange={props.getData}/></div>
-      <RadioButton choices={props.otherPromos} name="otherPromos"/>
-    </div>
+    <Context.Consumer>
+    {
+      context => 
+      <div>
+        <Dropdown onClick={context.getTypeFromDropdown} label='Type' options={context.types}/>
+        <div className={context.selectedType === 'Percent' ? 'field':' field is-hidden'}><Input label='Percent Off' id='percentOff' type='number' max='100' maxlength='3' min='0' handleChange={context.getData}/></div>
+        <div className={context.selectedType === 'Fixed' ? 'field':'field is-hidden'}><Input label='Amount' min='0' id='amount' type='number' handleChange={context.getData}/></div>
+        <div className='field'><Input label='Minimum Purchase' type='number' id='minPurchase' min='0' handleChange={context.getData}/></div>
+        <div className={context.selectedType === 'Percent' ? 'field':'field is-hidden'}><Input label='Maximum Discount' min='0' id='maxAmount' type='number' handleChange={context.getData}/></div>
+        <CheckBox id='onePromoPerTransaction' label='One promo per transaction' handleChange={context.checkBoxIsChecked}/>
+      </div>
+    }
+    </Context.Consumer>
   );
 }
 

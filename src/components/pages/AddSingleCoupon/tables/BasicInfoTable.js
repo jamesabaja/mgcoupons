@@ -3,6 +3,7 @@
  * Programmer           Date     Description
  * James Abaja          7/4/18   Created the Basic Info Table component.
  * James Abaja          7/5/18   Renamed file name and exported component.
+ * James Abaja          7/9/18   Changed props to context references.
  */
 
 /*
@@ -14,47 +15,54 @@
  */
 
 import React from 'react';
+import {Context} from '../AddCoupon';
 
 const BasicInfoTable = (props) => {
   return(
-    <table className='table fixed is-striped is-hoverable is-fullwidth has-text-centered'>
-      <thead>
-        <tr>
-          <th>BASIC COUPON INFO</th>
-          <th>Details</th>
-        </tr>
-      </thead>
-      <tbody>
-        {props.code !== '' && <tr>
-          <th>Coupon Code</th>
-          <td>{props.code}</td>
-        </tr>}
-        {props.description !== '' && <tr>
-          <th>Description</th>
-          <td>{props.description}</td>
-        </tr>}
-        <tr>
-          <th>Activation Date</th>
-          <td>{props.activeDate.toDateString()}</td>
-        </tr>
-        <tr>
-          <th>Expiry Date</th>
-          <td>{props.expiryDate.toDateString()}</td>
-        </tr>
-        <tr>
-          <th>Waive Service and Delivery Fees?</th>
-          <td>{props.waiveFees ? 'Yes' : 'No'}</td>
-        </tr>
-        {props.totalUseLimit !== '' && <tr>
-          <th>Total Use Limit</th>
-          <td>{props.totalUseLimit}</td>
-        </tr>}
-        {props.dailyLimit !== '' && <tr>
-          <th>Daily Use Limit</th>
-          <td>{props.dailyLimit}</td>
-        </tr>}
-      </tbody>
-    </table>
+    <Context.Consumer>
+    {
+      context => 
+      <table className='table fixed is-striped is-hoverable is-fullwidth has-text-centered'>
+        <thead>
+          <tr>
+            <th>BASIC COUPON INFO</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+          
+          <tbody>
+          {context.code !== '' && <tr>
+            <th>Coupon Code</th>
+            <td>{context.code}</td>
+          </tr>}
+          {context.description !== '' && <tr>
+            <th>Description</th>
+            <td>{context.description}</td>
+          </tr>}
+          <tr>
+            <th>Activation Date</th>
+            <td>{context.activeDate.toDateString()}</td>
+          </tr>
+          <tr>
+            <th>Expiry Date</th>
+            <td>{context.expiryDate.toDateString()}</td>
+          </tr>
+          <tr>
+            <th>Waive Service and Delivery Fees?</th>
+            <td>{context.waiveFees ? 'Yes' : 'No'}</td>
+          </tr>
+          {context.totalUseLimit !== 0 && <tr>
+            <th>Total Use Limit</th>
+            <td>{context.totalUseLimit}</td>
+          </tr>}
+          {context.dailyLimit !== 0 && <tr>
+            <th>Daily Use Limit</th>
+            <td>{context.dailyLimit}</td>
+          </tr>}
+          </tbody>
+      </table>
+    }
+    </Context.Consumer>
   );
 }
 

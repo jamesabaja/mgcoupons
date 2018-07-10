@@ -17,7 +17,7 @@ import React from 'react';
 const CheckBox = (props) => {
   return(
     <div className='field is-horizontal'>
-      <div className="field-label"></div>
+      <label className="label field-label">{props.containerLabel}</label>
       <div className='field-body'>
         <label className="checkbox">
           <input type="checkbox" id={props.id} onChange={props.handleChange}/>

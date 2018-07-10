@@ -2,6 +2,7 @@
  * Code History
  * Programmer           Date     Description
  * James Abaja          7/5/18   Created the User Restrictions Form component.
+ * James Abaja          7/9/18   Changed props to context references.
  */
 
 /*
@@ -15,15 +16,48 @@
 import React from 'react';
 import Input from '../../../form/Input';
 import CheckBox from '../../../form/CheckBox';
+import { Context } from '../AddCoupon';
 
-const UserRestrictionsForm = (props) => {
+const UserRestrictionsForm = () => {
   return(
-    <div>
-      <Input label='Location/s' id='location' handleChange={props.getData}/>
-      <Input label='Company' id='company' handleChange={props.getData}/>
-      <Input label='Uses per User' id='userUseLimit' handleChange={props.getData}/>
-      <CheckBox id='firstTime' label='First-time users' handleChange={props.checkBoxIsChecked}/>
-    </div>
+    <Context.Consumer>
+    {
+      context =>
+      <div>
+        <label className='label'>Locations</label>
+        <div className='columns'>
+          <div className='column'>
+            <CheckBox id='Caloocan' label='Caloocan' handleChange={context.getLocation}/>
+            <CheckBox id='Las Pinas' label='Las Pinas' handleChange={context.getLocation}/>
+            <CheckBox id='Makati' label='Makati' handleChange={context.getLocation}/>
+            <CheckBox id='Malabon' label='Malabon' handleChange={context.getLocation}/>
+            <CheckBox id='Mandaluyong' label='Mandaluyong' handleChange={context.getLocation}/>
+            <CheckBox id='Manila' label='Manila' handleChange={context.getLocation}/>
+          </div>
+          <div className='column'>
+            <CheckBox id='Marikina' label='Marikina' handleChange={context.getLocation}/>
+            <CheckBox id='Muntinlupa' label='Muntinlupa' handleChange={context.getLocation}/>
+            <CheckBox id='Navotas' label='Navotas' handleChange={context.getLocation}/>
+            <CheckBox id='Paranaque' label='Paranaque' handleChange={context.getLocation}/>
+            <CheckBox id='Pasay' label='Pasay' handleChange={context.getLocation}/>
+            <CheckBox id='Pasig' label='Pasig' handleChange={context.getLocation}/>
+          </div>
+          <div className='column'>
+            <CheckBox id='Pateros' label='Pateros' handleChange={context.getLocation}/>
+            <CheckBox id='Quezon City' label='Quezon City' handleChange={context.getLocation}/>
+            <CheckBox id='San Juan' label='San Juan' handleChange={context.getLocation}/>
+            <CheckBox id='Taguig' label='Taguig' handleChange={context.getLocation}/>
+            <CheckBox id='Valenzuela' label='Valenzuela' handleChange={context.getLocation}/>
+            <CheckBox id='Provincial' label='Provincial' handleChange={context.getLocation}/>
+          </div>
+        </div>
+
+        <Input label='Company' id='company' handleChange={context.getData}/>
+        <Input label='Uses per User' id='userUseLimit' type='number' handleChange={context.getData} disabled={context.firstTime} min='1' />
+        <CheckBox id='firstTime' label='First-time users' handleChange={context.checkBoxIsChecked}/>
+      </div>
+    }
+    </Context.Consumer>
   );
 }
 

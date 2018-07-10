@@ -26,9 +26,9 @@ const Panel = (props) => {
         </p>
       </div>
       {props.isLoading && <p className='has-text-centered subtitle is-5' style={{paddingTop: '10px'}}>Loading data...</p>}
-      <div style={{overflowY: 'auto', height: '391px'}}>
+      <div style={{overflowY: 'auto', height: '391px', width: '250px'}}>
       {props.searchResults.map((item, i) => 
-        <a className='panel-block' key={i} onClick={props.selectedItem} name={item.title}>{item.title}</a>
+        <a style={{textDecoration: 'none'}} className='panel-block' key={i} onClick={props.selectedItem} name={item.title}>{item.title}</a>
       )}
       </div>
     </nav>

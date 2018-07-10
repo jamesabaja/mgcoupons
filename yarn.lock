@@ -1276,6 +1276,18 @@ builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
 
+bulma-accordion@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/bulma-accordion/-/bulma-accordion-2.0.0.tgz#d6611765452143fd07d75ec3b30377a84d407237"
+
+bulma-divider@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/bulma-divider/-/bulma-divider-2.0.1.tgz#6ab81c939fafd4962e2e5432b2df07dfeb02f150"
+
+bulma-quickview@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/bulma-quickview/-/bulma-quickview-2.0.0.tgz#ac85d6cc23f98bd4b4be5cef11e9524554d2bbf3"
+
 bulma-start@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/bulma-start/-/bulma-start-0.0.2.tgz#472507881b1b27af29e009c8599503e1462d2031"

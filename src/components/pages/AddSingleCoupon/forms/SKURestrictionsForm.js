@@ -4,6 +4,7 @@
  * James Abaja          7/5/18   Created the SKU Restrictions Form component
  *                               Changed the component from a const to class
  *                               Added functions and function descriptions
+ * James Abaja          7/9/18   Changed props to context references.
  */
 
 /*
@@ -20,6 +21,12 @@ import Dropdown from '../../../form/Dropdown';
 import RadioButton from '../../../form/RadioButton';
 import Search from '../Search/Search';
 import Button from '../../../form/Button';
+import { Context } from '../AddCoupon';
+import '../../../../assets/animate.css';
+import IncludedItemsTable from '../tables/IncludedItemsTable';
+import IncludedSKUsTable from '../tables/IncludedSKUsTable';
+import ExcludedSKUsTable from '../tables/ExcludedSKUsTable';
+import ExcludedItemsTable from '../tables/ExcludedItemsTable';
 
 
 class SKURestrictionsForm extends Component {
@@ -27,13 +34,12 @@ class SKURestrictionsForm extends Component {
   constructor(props) {
     super(props);
     this.selectTab = this.selectTab.bind(this);
+    this.hideForm = this.hideForm.bind(this);
     this.state = {
-      includedItems: [],
-      include: false,
-      excludedItems: [],
-      exclude: false,
       includeTab: true,
-      excludeTab: false
+      excludeTab: false,
+      hideNotif: true,
+      hideForm: true
     };
   }
 
@@ -52,135 +58,100 @@ class SKURestrictionsForm extends Component {
     }
   }
 
+  hideForm() {
+    if(this.state.hideForm) {
+      this.setState({
+        hideForm: false
+      });
+    }else {
+      this.setState({
+        hideForm: true
+      });
+    }
+  }
+
   render() {
     return(
-      <div className='columns'>
-        <div className='column'>
-          <RadioButton choices={this.props.skuChoices} name="skuChoices" onChange={this.props.includeOrExclude}/>
-          <Dropdown label='Category' options={this.props.categories} onClick={this.props.getCategoryFromDropdown}/>
-          <Dropdown label='Class' options={this.props.classes} onClick={this.props.getClassFromDropdown}/>
-          <CheckBox id='rxOnly' label='Prescription Medicine only' handleChange={this.props.checkBoxIsChecked}/>
-          <Search selectedItem={this.props.selectedItem}/>
-        </div>
-        <div className='column'>
-          <div className="tabs is-toggle is-boxed">
-            <ul>
-              <li className={this.state.includeTab ? 'is-active':''}><a onClick={this.selectTab} name='Include'>Included Items</a></li>
-              <li  className={this.state.excludeTab ? 'is-active':''}><a onClick={this.selectTab} name='Exclude'>Excluded Items</a></li>
-            </ul>
-            <button className='button is-primary' onClick={this.props.clearList} name='Clear List'>Clear List</button>
+      <Context.Consumer>
+      {
+        context => 
+        <div>
+          <div className={context.showIncludeExcludeError ? 'notification is-danger' : 'is-hidden'}>
+            <button className="delete" id='showIncludeExcludeError' onClick={context.hideNotification}></button>
+            Click <b><i>Include</i></b> or <b><i>Exclude</i></b> first before selecting/adding data.
           </div>
-          {this.state.includeTab && 
-          <div style={{overflowY: 'auto', height: '500px', display:'block'}}>
-          <table className='table is-striped is-hoverable is-fullwidth has-text-centered'>
-            <thead>
-              <tr>
-                <th>CATEGORIES</th>
-                <th/>
-              </tr>
-            </thead>
-            <tbody>
-              {this.props.includedCategories.sort((a, b) => {
-                return a.localeCompare(b);
-              })
-              .map((item, i) =>
-              <tr>
-                <td key={i} style={{width: '75%'}}>{item}</td>
-                <td style={{width: '25%'}}><Button label='Remove' handleClick={this.props.removeFromList} name={item}/></td>
-              </tr>)}
-            </tbody>
-          </table>
-          <table className='table is-striped is-hoverable is-fullwidth has-text-centered'>
-            <thead>
-              <tr>
-                <th>CLASSES</th>
-                <th/>
-              </tr>
-            </thead>
-            <tbody>
-              {this.props.includedClasses.sort((a, b) => {
-                return a.localeCompare(b);
-              }).map((item, i) =>
-              <tr>
-                <td key={i} style={{width: '75%'}}>{item}</td>
-                <td style={{width: '25%'}}><Button label='Remove' handleClick={this.props.removeFromList} name={item}/></td>
-              </tr>)}
-            </tbody>
-          </table>
-          <table className='table is-striped is-hoverable is-fullwidth has-text-centered'>
-            <thead>
-              <tr>
-                <th>ITEMS</th>
-                <th/>
-              </tr>
-            </thead>
-            <tbody>
-              {this.props.includedItems.sort((a, b) => {
-                return a.localeCompare(b);
-              }).map((item, i) =>
-              <tr>
-                <td key={i} style={{width: '75%'}}>{item}</td>
-                <td style={{width: '25%'}}><Button label='Remove' handleClick={this.props.removeFromList} name={item}/></td>
-              </tr>)}
-            </tbody>
-          </table>
-          </div>}
-          {this.state.excludeTab && 
-          <div style={{overflowY: 'auto', height: '500px', display:'block'}}>
-            <table className='table is-striped is-hoverable is-fullwidth has-text-centered'>
-              <thead>
-                <tr>
-                  <th>CATEGORIES</th>
-                  <th/>
-                </tr>
-              </thead>
-              <tbody>
-                {this.props.excludedCategories.sort((a, b) => {
-                return a.localeCompare(b);
-              }).map((item, i) =>
-                <tr>
-                  <td key={i} style={{width: '75%'}}>{item}</td>
-                  <td style={{width: '25%'}}><Button label='Remove' handleClick={this.props.removeFromList} name={item}/></td>
-                </tr>)}
-              </tbody>
-            </table>
-            <table className='table is-striped is-hoverable is-fullwidth has-text-centered'>
-              <thead>
-                <tr>
-                  <th>CLASSES</th>
-                  <th/>
-                </tr>
-              </thead>
-              <tbody>
-                {this.props.excludedClasses.sort((a, b) => {
-                return a.localeCompare(b);
-              }).map((item, i) =>
-                <tr>
-                  <td key={i} style={{width: '75%'}}>{item}</td>
-                  <td style={{width: '25%'}}><Button label='Remove' handleClick={this.props.removeFromList} name={item}/></td>
-                </tr>)}
-              </tbody>
-            </table>
-            <table className='table is-striped is-hoverable is-fullwidth has-text-centered'>
-              <thead>
-                <tr>
-                  <th>ITEMS</th>
-                  <th/>
-                </tr>
-              </thead>
-              <tbody>
-                {this.props.excludedItems.sort((a, b) => {
-                return a.localeCompare(b);
-              }).map((item, i) =>
-                <tr>
-                  <td key={i} style={{width: '75%'}}>{item}</td>
-                  <td style={{width: '25%'}}><Button label='Remove' handleClick={this.props.removeFromList} name={item}/></td>
-                </tr>)}
-              </tbody>
-            </table>
-          </div>}
+          <div className={context.itemAlreadyExists || context.skuAlreadyExists ? 'notification is-danger' : 'is-hidden'}>
+            <button className="delete" id='itemAlreadyExists' onClick={context.hideNotification}></button>
+            {context.itemAlreadyExists ? 'Item' : 'SKU Restriction'} <b><i>already exists</i></b> in the list.
+          </div> 
+          <div className={context.showIncludedNotification ? 'notification is-success' : 'is-hidden'}>
+            <button className="delete" id='showIncludedNotification' onClick={context.hideNotification}></button>
+            Successfully added <b><i>{context.includedItem ? context.includedItems[context.includedItems.length-1] : context.includedSKU ? context.multipleSKUs ? 'SKU restrictions' : context.includedSKUs[context.includedSKUs.length-1].category : ''}</i></b> to the Included list.
+          </div>
+          <div className={context.showExcludedNotification ? 'notification is-warning' : 'is-hidden'}>
+            <button className="delete" id='showExcludedNotification' onClick={context.hideNotification}></button>
+            Successfully added <b><i>{context.excludedItem ? context.excludedItems[context.excludedItems.length-1] : context.excludedSKU ? context.multipleSKUs ? 'SKU restrictions' : context.excludedSKUs[context.excludedSKUs.length-1].category : ''}</i></b> to the Excluded list.
+          </div>
+          <article className="message">
+            <div className="message-header" onClick={this.hideForm}>
+              <p>Add Restrictions</p>
+              {this.state.hideForm ? <i className="material-icons">add_circle_outline</i> : <i className="material-icons">remove_circle_outline</i>}
+            </div>
+            <div className={this.state.hideForm ? 'message-body is-hidden' : 'message-body animated fadeIn'}>
+              <div className='columns'>
+                <div className='column'>
+                  <RadioButton choices={context.skuChoices} name="skuChoices" onChange={context.includeOrExclude}/>
+                  <Dropdown label='Category' options={context.categories} onClick={context.getCategoryFromDropdown}/>
+                  <label className='label'>Classes</label>
+                  <CheckBox id='branded' label='Branded' handleChange={context.checkBoxIsChecked}/>
+                  <CheckBox id='generic' label='Generic' handleChange={context.checkBoxIsChecked}/>
+                  <CheckBox id='unibranded' label='Unibranded' handleChange={context.checkBoxIsChecked}/>
+                  <label className='label'>Restrictions</label>
+                  <CheckBox id='rxOnly' label='Prescription' handleChange={context.checkBoxIsChecked}/>
+                  <CheckBox id='otcOnly' label='OTC' handleChange={context.checkBoxIsChecked}/>
+                  <div className="field is-horizontal">
+                    <label className="label field-label"></label>
+                    <div className="field-body">
+                      <Button label='Add SKU' name='addSKU' handleClick={context.addSKU}/>
+                    </div>
+                  </div>
+                </div>
+                <div className="is-divider-vertical" data-content="OR"></div>
+                <div className='column'>
+                  <Search selectedItem={context.selectedItem}/>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div className='columns'>
+            <div className='column'>
+              <label className='label'>Included SKUs</label>
+              <hr/>
+              <div style={{overflowY: 'auto', height: '200px', display:'block'}}>
+                <IncludedSKUsTable />
+              </div>
+              <label className='label'>Included Items</label>
+              <hr/>
+              <div style={{overflowY: 'auto', height: '200px', display:'block'}}>
+                <IncludedItemsTable />
+              </div>
+            </div>
+            <div className='column'>
+              <label className='label'>Excluded SKUs</label>
+              <hr/>
+              <div style={{overflowY: 'auto', height: '200px', display:'block'}}>
+                <ExcludedSKUsTable />
+              </div>
+              <label className='label'>Excluded Items</label>
+              <hr/>
+              <div style={{overflowY: 'auto', height: '200px', display:'block'}}>
+                <ExcludedItemsTable />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      }
+      </Context.Consumer>
     );
   }
   

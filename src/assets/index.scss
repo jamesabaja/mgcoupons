@@ -1,6 +1,13 @@
 @import "../../node_modules/bulma/sass/utilities/initial-variables";
 
 $primary: #007070;
+$message-background-color: #FFF;
+$message-header-color: #FFF;
+$message-header-background-color: $primary;
+$message-body-border-color: $primary;
 
 @import '../../node_modules/bulma/bulma.sass';
 @import '../../node_modules/bulma-steps-component/bulma-steps.sass';
+@import '../../node_modules/bulma-divider/dist/css/bulma-divider.sass';
+@import '../../node_modules/bulma-accordion/dist/css/bulma-accordion.sass';
+@import '../../node_modules/bulma-quickview/dist/css/bulma-quickview.sass';
