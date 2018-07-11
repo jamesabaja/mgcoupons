@@ -76,21 +76,22 @@ class SKURestrictionsForm extends Component {
       {
         context => 
         <div>
-          <div className={context.showIncludeExcludeError ? 'notification is-danger' : 'is-hidden'}>
+          <div className={context.showIncludeExcludeError ? 'notification is-warning' : 'is-hidden'}>
+          <i className="material-icons">error_outline</i> 
             <button className="delete" id='showIncludeExcludeError' onClick={context.hideNotification}></button>
             Click <b><i>Include</i></b> or <b><i>Exclude</i></b> first before selecting/adding data.
           </div>
           <div className={context.itemAlreadyExists || context.skuAlreadyExists ? 'notification is-danger' : 'is-hidden'}>
             <button className="delete" id='itemAlreadyExists' onClick={context.hideNotification}></button>
-            {context.itemAlreadyExists ? 'Item' : 'SKU Restriction'} <b><i>already exists</i></b> in the list.
+            <i className="material-icons">highlight_off</i> {context.itemAlreadyExists ? 'Item' : 'SKU Restriction'} <b><i>already exists</i></b> in the list.
           </div> 
           <div className={context.showIncludedNotification ? 'notification is-success' : 'is-hidden'}>
             <button className="delete" id='showIncludedNotification' onClick={context.hideNotification}></button>
-            Successfully added <b><i>{context.includedItem ? context.includedItems[context.includedItems.length-1] : context.includedSKU ? context.multipleSKUs ? 'SKU restrictions' : context.includedSKUs[context.includedSKUs.length-1].category : ''}</i></b> to the Included list.
+            <i className="material-icons">check_circle</i> Successfully added <b><i>{context.includedItem ? context.includedItems[context.includedItems.length-1] : context.includedSKU ? context.multipleSKUs ? 'SKU restrictions' : context.includedSKUs[context.includedSKUs.length-1].category : ''}</i></b> to the <span style={{color: 'green'}}>Included</span> list.
           </div>
-          <div className={context.showExcludedNotification ? 'notification is-warning' : 'is-hidden'}>
+          <div className={context.showExcludedNotification ? 'notification is-success' : 'is-hidden'}>
             <button className="delete" id='showExcludedNotification' onClick={context.hideNotification}></button>
-            Successfully added <b><i>{context.excludedItem ? context.excludedItems[context.excludedItems.length-1] : context.excludedSKU ? context.multipleSKUs ? 'SKU restrictions' : context.excludedSKUs[context.excludedSKUs.length-1].category : ''}</i></b> to the Excluded list.
+            <i className="material-icons">check_circle</i> Successfully added <b><i>{context.excludedItem ? context.excludedItems[context.excludedItems.length-1] : context.excludedSKU ? context.multipleSKUs ? 'SKU restrictions' : context.excludedSKUs[context.excludedSKUs.length-1].category : ''}</i></b> to the <span style={{color: 'red'}}>Excluded</span> list.
           </div>
           <article className="message">
             <div className="message-header" onClick={this.hideForm}>
@@ -125,25 +126,29 @@ class SKURestrictionsForm extends Component {
           </article>
           <div className='columns'>
             <div className='column'>
-              <label className='label'>Included SKUs</label>
-              <hr/>
+              <div className='message is-success'>
+              <div className='message-header'><p>Included SKUs</p></div>
+              </div>
               <div style={{overflowY: 'auto', height: '200px', display:'block'}}>
                 <IncludedSKUsTable />
               </div>
-              <label className='label'>Included Items</label>
-              <hr/>
+              <div className='message is-success'>
+              <div className='message-header'><p>Included Items</p></div>
+              </div>
               <div style={{overflowY: 'auto', height: '200px', display:'block'}}>
                 <IncludedItemsTable />
               </div>
             </div>
             <div className='column'>
-              <label className='label'>Excluded SKUs</label>
-              <hr/>
+              <div className='message is-danger'>
+              <div className='message-header'><p>Excluded SKUs</p></div>
+              </div>
               <div style={{overflowY: 'auto', height: '200px', display:'block'}}>
                 <ExcludedSKUsTable />
               </div>
-              <label className='label'>Excluded Items</label>
-              <hr/>
+              <div className='message is-danger'>
+              <div className='message-header'><p>Excluded Items</p></div>
+              </div>
               <div style={{overflowY: 'auto', height: '200px', display:'block'}}>
                 <ExcludedItemsTable />
               </div>

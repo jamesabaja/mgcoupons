@@ -29,7 +29,25 @@ a {
 
 hr {
   background: #000;
-  opacity: .2;
+  opacity: .8;
+}
+
+hr.included {
+  background: green;
+  color: green;
+}
+
+hr.excluded {
+  background: red;
+  color: red;
+}
+
+.included {
+  color: green;
+}
+
+.excluded {
+  color: red;
 }
 
 .message-header {

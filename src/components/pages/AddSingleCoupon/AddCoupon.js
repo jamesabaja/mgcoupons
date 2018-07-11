@@ -314,11 +314,13 @@ class AddCoupon extends Component {
           includedItem: true,
           includedSKU: false,
           itemAlreadyExists: false,
+          skuAlreadyExists: false,
           includedItems: [...this.state.includedItems, selected]
         });
       }else {
         this.setState({
           itemAlreadyExists: true,
+          skuAlreadyExists: false,
           showIncludedNotification: false,
         });
       }
@@ -339,11 +341,13 @@ class AddCoupon extends Component {
           excludedItem: true,
           excludedSKU: false,
           itemAlreadyExists: false,
+          skuAlreadyExists: false,
           excludedItems: [...this.state.excludedItems, selected]
         });
       }else {
         this.setState({
           itemAlreadyExists: true,
+          skuAlreadyExists: false,
           showExcludedNotification: false
         });
       }
@@ -478,6 +482,7 @@ class AddCoupon extends Component {
         if(includedSKUs.length > 0) {
           this.setState({
             skuAlreadyExists: true,
+            itemAlreadyExists: false,
             showExcludedNotification: false,
             showIncludedNotification: false
           });
@@ -501,6 +506,8 @@ class AddCoupon extends Component {
             includedItem: false,
             multipleSKUs: true,
             excludedSKU: false,
+            skuAlreadyExists: false,
+            itemAlreadyExists: false,
             excludedSKUs: [],
           });
         }
@@ -521,6 +528,7 @@ class AddCoupon extends Component {
         if(alreadyExists) {
           this.setState({
             skuAlreadyExists: true,
+            itemAlreadyExists:false,
             showExcludedNotification: false,
             showIncludedNotification: false,
           });
@@ -539,7 +547,9 @@ class AddCoupon extends Component {
             multipleSKUs: false,
             includedSKU: true,
             includedItem: false,
-            excludedSKU: false
+            excludedSKU: false,
+            itemAlreadyExists: false,
+            skuAlreadyExists: false
           });
         }
       }
@@ -559,6 +569,7 @@ class AddCoupon extends Component {
         if(excludedSKUs.length > 0) {
           this.setState({
             skuAlreadyExists: true,
+            itemAlreadyExists: false,
             showExcludedNotification: false,
             showIncludedNotification: false
           });
@@ -581,6 +592,8 @@ class AddCoupon extends Component {
             excludedItem: false,
             excludedSKU: true,
             includedSKU: false,
+            skuAlreadyExists: false,
+            itemAlreadyExists: false,
             showExcludedNotification: true,
             showIncludedNotification: false
           });
@@ -602,6 +615,7 @@ class AddCoupon extends Component {
         if(alreadyExists) {
           this.setState({
             skuAlreadyExists: true,
+            itemAlreadyExists: false,
             showExcludedNotification: false,
             showIncludedNotification: false
           });
@@ -619,6 +633,8 @@ class AddCoupon extends Component {
             excludedSKU: true,
             includedSKU: false,
             excludedItem: false,
+            skuAlreadyExists: false,
+            itemAlreadyExists: false,
             showExcludedNotification: true,
             showIncludedNotification: false
           });
